@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 import uuid
 
 # Create your models here.
@@ -63,3 +64,8 @@ class NDECertificate(models.Model):
 
     def __str__(self):
         return f'{self.certificate_number}'
+
+    def checkexpiry(self):
+        if(self.validity_end_date < datetime.date.today()):
+            instance = Instance.objects.get(id=self.material_instance.id)
+            instance.set_expire()
