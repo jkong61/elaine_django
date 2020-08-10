@@ -9,6 +9,7 @@ class Material(models.Model):
     hal_number = models.IntegerField('HAL SAP Number',primary_key=True,unique=True,help_text="SAP Number used by Halliburton Internal")
     hal_description = models.CharField('Description',max_length=255, help_text="Description of Material")
     hal_old_number = models.CharField('HAL Old Mtl Number',max_length=64, help_text="Old Material number used by Halliburton Internal")
+    material_type = models.ForeignKey('MaterialType',on_delete=models.CASCADE,null=True,verbose_name="Equipment Type")
 
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
@@ -59,18 +60,16 @@ class Instance(models.Model):
         self.save()
 
 # Certificate tied to an Instance:
-class NDECertificate(models.Model):
+class Inspection(models.Model):
     id = models.UUIDField('ID',default=uuid.uuid4,primary_key=True,unique=True,help_text="Unique ID for Material Instance")
-    certificate_number = models.CharField('Cert. Number',max_length=255, help_text="Certificate Number")
     validity_start_date = models.DateField('Start Date',null=True)
     validity_end_date = models.DateField('Expiry Date',null=True)
     material_instance = models.ForeignKey('Instance',on_delete=models.CASCADE,null=True, verbose_name="Instance S/N")
-    validity = models.BooleanField('Certificate Valid', default=True, help_text="Is the certificate valid?")
-    in_use = models.BooleanField('Certificate In Use', default=True, help_text="Is the certificate in use?")
+    validity = models.BooleanField('Inspection Valid', default=True, help_text="Is the inspection valid?")
+    in_use = models.BooleanField('Inspection In Use', default=True, help_text="Is the inspection in use?")
 
     class Meta():
-        verbose_name = "NDE Certificate"
-        verbose_name_plural = "NDE Certificates"
+        verbose_name = "Inspection"
 
     def __str__(self):
         return f'{self.certificate_number}'
@@ -105,6 +104,15 @@ class JobLocation(models.Model):
 
     class Meta():
         verbose_name_plural = "Job Locations"
+
+    def __str__(self):
+        return f'{self.location_name}'
+
+
+# Material Type
+class MaterialType(models.Model):
+    id = models.AutoField("ID",primary_key=True,unique=True,help_text="Unique ID for Material Type")
+    description = models.CharField('Description',max_length=64,help_text="Type of Equipment")
 
     def __str__(self):
         return f'{self.location_name}'

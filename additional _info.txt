@@ -1,0 +1,12 @@
+<!-- Pipework -->
+<!-- Pipework MPI & UTT NDE (1 year) -->
+<!-- Pipework Pre-Post Maintenance (3 months) -->
+<!-- Pipework Annual Maintenance (1 year) -->
+<!-- Pipework Major COC Maintenance (5 year) -->
+
+<!-- Lifting Equipment -->
+<!-- SKID, Visual (1 year) MPI (1 year) -->
+<!-- Sling Visual (6 months), MPI (1 year) -->
+
+<!-- TMMDE (Teeeee??? Monitoring, Measuring Device Equipment) -->
+<!-- Calibration (1 year) -->

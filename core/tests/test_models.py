@@ -1,6 +1,6 @@
 from django.test import TestCase
 import datetime
-from core.models import Material, Instance, NDECertificate
+from core.models import Material, Instance, Inspection
 
 # Create your tests here.
 class TestExpiryFunction(TestCase):
@@ -18,7 +18,7 @@ class TestExpiryFunction(TestCase):
         # Certificate is expired by default by 1 week
         material = Material.objects.create(hal_number='123', hal_description='Some material', hal_old_number='qwerty123')
         instance = Instance.objects.create(id=1,material=material)
-        cert = NDECertificate.objects.create(id=1,certificate_number='cert1',validity_start_date=cls.startdate,validity_end_date=cls.enddate,material_instance=instance)
+        cert = Inspection.objects.create(id=1,validity_start_date=cls.startdate,validity_end_date=cls.enddate,material_instance=instance)
 
     def test_instance_status(self):
         instance = Instance.objects.get(id=1)
@@ -33,7 +33,7 @@ class TestExpiryFunction(TestCase):
         self.assertEqual(instance.status,'e')
 
     def test_nde_expiry_check(self):
-        cert = NDECertificate.objects.get(id=1)
+        cert = Inspection.objects.get(id=1)
 
         # Instruct cert to check expiry
         cert.checkexpiry()
@@ -42,7 +42,7 @@ class TestExpiryFunction(TestCase):
         self.assertEqual(instance.status,'e')
 
     def test_nde_timeleft(self):
-        cert = NDECertificate.objects.get(id=1)
+        cert = Inspection.objects.get(id=1)
 
         # Override expiry date to be more than today's date
         cert.validity_end_date = datetime.date.today() + datetime.timedelta(weeks=1)
@@ -51,7 +51,7 @@ class TestExpiryFunction(TestCase):
         # print(cert.get_time_left_days())
 
     def test_nde_warning(self):
-        cert = NDECertificate.objects.get(id=1)
+        cert = Inspection.objects.get(id=1)
 
         # Override expiry date to be more than today's date ,by 12 weeks (3 months)
         cert.validity_end_date = datetime.date.today() + datetime.timedelta(weeks=12)
@@ -67,7 +67,7 @@ class TestExpiryFunction(TestCase):
         self.assertEqual(cert.get_reference_material().status,'w')
 
     def test_nde_get_reference(self):
-        cert = NDECertificate.objects.get(id=1)
+        cert = Inspection.objects.get(id=1)
         instance = Instance.objects.get(id=1)
 
         self.assertEqual(instance, cert.get_reference_material())

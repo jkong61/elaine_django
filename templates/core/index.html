@@ -8,9 +8,8 @@
     <h1>Dashboard</h1>
     <p>Today's Date : {{ date_today }}</p>
 
-    <a href="{% url 'core-index' %}?q=all">View all ready</a>
-
     {% if instance_list %}
+    <a href="{% url 'core-index' %}?q=all">View all ready</a>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -36,7 +35,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>There are no active certs.</p>
+    <p>Nothing currently requires your attention.</p>
     {% endif %}
 {% else %}
 

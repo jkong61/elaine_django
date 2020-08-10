@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Material, Instance, NDECertificate, JobLocation
+from .models import Material, Instance, Inspection, JobLocation, MaterialType
 
 # Register your models here.
 @admin.register(Material)
@@ -11,12 +11,17 @@ class InstanceAdmin(admin.ModelAdmin):
     readonly_fields = ['id']
     list_display = ('material', 'serial_number', 'status', 'instance_allocation')
 
-@admin.register(NDECertificate)
-class NDECertAdmin(admin.ModelAdmin):
+@admin.register(Inspection)
+class InspectionAdmin(admin.ModelAdmin):
     readonly_fields = ['id']
-    list_display = ('certificate_number', 'validity_start_date', 'validity_end_date', 'material_instance', 'validity', 'in_use')
+    list_display = ('validity_start_date', 'validity_end_date', 'material_instance', 'validity', 'in_use')
 
 @admin.register(JobLocation)
 class JobLocationAdmin(admin.ModelAdmin):
     readonly_fields = ['id']
     list_display = ['location_name']
+
+@admin.register(MaterialType)
+class MatlDescAdmin(admin.ModelAdmin):
+    readonly_fields = ['id']
+    list_display = ['description']
