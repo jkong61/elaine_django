@@ -3,8 +3,20 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
+    {% if user.is_authenticated %}
     <h1>Dashboard</h1>
+
+    {% if instance_list %}
+    <table>
+        <tr>
+            <th>Serial Number</th>
+        </tr>
+    </table>
+        {% for inst in instance_list %}
+        {% endfor %}
+    {% else %}
+    <p>There are no insts in the library.</p>
+    {% endif %}
 {% else %}
 
 {% endif %}

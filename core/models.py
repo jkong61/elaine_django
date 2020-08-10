@@ -27,12 +27,6 @@ class Instance(models.Model):
         ('e' , 'Expired'),
     }
 
-    ALLOCATION = {
-        ('w' , 'West Pumping'),
-        ('p', 'Plug & Abandonment'),
-        ('h', 'Hydraulic WorkOver'),
-    }
-
     status = models.CharField(
         max_length = 1,
         choices = OBJ_STATUS,
@@ -40,17 +34,17 @@ class Instance(models.Model):
         help_text = "Status of Item"
     )
 
-    instance_allocation = models.CharField(
-        max_length = 1,
-        choices = ALLOCATION,
+    instance_allocation = models.ForeignKey(
+        'JobLocation',
+        on_delete=models.SET_NULL,
         help_text = "Item Allocated to which project",
         null=True
     )
 
-    instance_remarks = models.CharField('Additional Remarks',max_length=255,help_text="Additional Comments",null=True,default="")
+    instance_remarks = models.CharField('Additional Remarks',max_length=255,help_text="Additional Comments",null=True, blank=True)
 
     def __str__(self):
-        return f'{self.material.hal_number} - {self.material.hal_description}'
+        return f'{self.serial_number} - {self.material.hal_description}'
 
 
     def set_expire(self):
@@ -67,7 +61,11 @@ class NDECertificate(models.Model):
     certificate_number = models.CharField('Cert. Number',max_length=255, help_text="Certificate Number")
     validity_start_date = models.DateField('Start Date',null=True)
     validity_end_date = models.DateField('Expiry Date',null=True)
-    material_instance = models.ForeignKey('Instance',on_delete=models.CASCADE,null=True)
+    material_instance = models.ForeignKey('Instance',on_delete=models.CASCADE,null=True, verbose_name="Instance S/N")
+
+    class Meta():
+        verbose_name_plural = "NDE Certificates"
+
 
     def __str__(self):
         return f'{self.certificate_number}'
@@ -88,3 +86,14 @@ class NDECertificate(models.Model):
             return timedelta.days
         else:
             return 0
+
+# Location Instance
+class JobLocation(models.Model):
+    id = models.UUIDField('ID',default=uuid.uuid4,primary_key=True,unique=True,help_text="Unique ID for Location")
+    location_name = models.CharField('Location Name',max_length=64,help_text="Name of Location")
+
+    class Meta():
+        verbose_name_plural = "Job Locations"
+
+    def __str__(self):
+        return f'{self.location_name}'
