@@ -13,7 +13,7 @@ class HomePageView(LoginRequiredMixin,ListView):
     template_name = 'core/index.html'
 
     def get_queryset(self):
-        queryset = Instance.objects.all()
+        queryset = Instance.objects.exclude(status__exact='r')
         return queryset
     
     # Method to add context to the TemplateView

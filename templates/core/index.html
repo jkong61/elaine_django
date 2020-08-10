@@ -7,13 +7,27 @@
     <h1>Dashboard</h1>
 
     {% if instance_list %}
-    <table>
-        <tr>
-            <th>Serial Number</th>
-        </tr>
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>Serial Number</th>
+                <th>Item Description</th>
+                <th>Allocation</th>
+                <th>Item Status</th>
+            </tr>    
+        </thead>
+
+        <tbody>
+            {% for instance in instance_list %}
+            <tr>
+                <td>{{instance.serial_number}}</td>
+                <td>{{instance.material}}</td>
+                <td>{{instance.instance_allocation}}</td>  
+                <td>{{instance.get_status_display}}</td>
+            </tr>
+            {% endfor %}    
+        </tbody>
     </table>
-        {% for inst in instance_list %}
-        {% endfor %}
     {% else %}
     <p>There are no insts in the library.</p>
     {% endif %}
