@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 class Material(models.Model):
@@ -17,15 +18,15 @@ class Instance(models.Model):
     serial_number = models.CharField('Mfg S/N',max_length=64,help_text="Manufacturing Serial Number")
 
     OBJ_STATUS = {
-        'n' : 'Not Ready',
-        'r' : 'Ready',
-        'e' : 'Expired'
+        ('n' , 'Not Ready'),
+        ('r' , 'Ready'),
+        ('e' , 'Expired')
     }
 
     ALLOCATION = {
-        'w' : 'West Pumping',
-        'p': 'Plug & Abandonment',
-        'h': 'Hydraulic WorkOver'
+        ('w' , 'West Pumping'),
+        ('p', 'Plug & Abandonment'),
+        ('h', 'Hydraulic WorkOver')
     }
 
     status = models.CharField(
