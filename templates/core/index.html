@@ -8,6 +8,8 @@
     <h1>Dashboard</h1>
     <p>Today's Date : {{ date_today }}</p>
 
+    <a href="{% url 'core-index' %}?q=all">View all ready</a>
+
     {% if instance_list %}
     <table class="table">
         <thead class="thead-dark">

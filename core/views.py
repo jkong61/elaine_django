@@ -16,8 +16,11 @@ class HomePageView(LoginRequiredMixin,ListView):
 
     #  Overriden method to get the query set
     def get_queryset(self):
-        queryset = NDECertificate.objects.exclude(in_use = False)
-        return queryset
+        if ('q' in self.request.GET and self.request.GET['q'] == 'all'):
+            # TODO refine the all search
+            # view all NDE where Certificates are actively in use
+            return NDECertificate.objects.filter(in_use = True).filter(validity=True)
+        return NDECertificate.objects.filter(validity = False)
     
     # Method to add context to the TemplateView
     def get_context_data(self, **kwargs):
@@ -35,3 +38,7 @@ class HomePageView(LoginRequiredMixin,ListView):
             # INSTANCES_CHECKED = True
 
         return super().get(request, *args, **kwargs)
+
+class NDEFormsView(LoginRequiredMixin,TemplateView):
+    template_name = 'core/nde_forms.html'
+    login_url = reverse_lazy('login')
