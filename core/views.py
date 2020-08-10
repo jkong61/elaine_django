@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Instance, NDECertificate
+from elaine.settings import INSTANCES_CHECKED
 
 # Create your views here.
 
@@ -12,6 +13,7 @@ class HomePageView(LoginRequiredMixin,ListView):
     context_object_name = 'instance_list'
     template_name = 'core/index.html'
 
+    #  Overriden method to get the query set
     def get_queryset(self):
         queryset = Instance.objects.exclude(status__exact='r')
         return queryset
@@ -21,3 +23,13 @@ class HomePageView(LoginRequiredMixin,ListView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         return context
+
+    def get(self, request, *args, **kwargs):
+        global INSTANCES_CHECKED
+        if(not INSTANCES_CHECKED):
+            queryset = NDECertificate.objects.filter(validity=True)
+            for item in queryset:
+                item.checkexpiry()
+            # INSTANCES_CHECKED = True
+
+        return super().get(request, *args, **kwargs)

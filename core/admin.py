@@ -8,12 +8,15 @@ class MaterialAdmin(admin.ModelAdmin):
 
 @admin.register(Instance)
 class InstanceAdmin(admin.ModelAdmin):
+    readonly_fields = ['id']
     list_display = ('material', 'serial_number', 'status', 'instance_allocation')
 
 @admin.register(NDECertificate)
 class NDECertAdmin(admin.ModelAdmin):
-    list_display = ('certificate_number', 'validity_start_date', 'validity_end_date', 'material_instance')
+    readonly_fields = ['id']
+    list_display = ('certificate_number', 'validity_start_date', 'validity_end_date', 'material_instance', 'validity')
 
 @admin.register(JobLocation)
 class JobLocationAdmin(admin.ModelAdmin):
+    readonly_fields = ['id']
     list_display = ['location_name']

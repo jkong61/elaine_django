@@ -131,3 +131,5 @@ STATICFILES_DIRS = [
 # Redirects after logging in
 LOGOUT_REDIRECT_URL = 'core-index'
 LOGIN_REDIRECT_URL = 'core-index'
+
+INSTANCES_CHECKED = False

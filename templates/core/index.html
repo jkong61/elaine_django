@@ -1,5 +1,6 @@
 {% extends 'base_layout.html' %}
 
+{% spaceless %}
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
@@ -23,7 +24,15 @@
                 <td>{{instance.serial_number}}</td>
                 <td>{{instance.material}}</td>
                 <td>{{instance.instance_allocation}}</td>  
-                <td>{{instance.get_status_display}}</td>
+                <td
+                {% if instance.status == 'e'%}
+                class="table-danger">
+                {% elif instance.status == 'w'%}
+                class="table-warning">
+                {% else %}
+                >
+                {% endif %}
+                {{instance.get_status_display}}</td>
             </tr>
             {% endfor %}    
         </tbody>
@@ -35,3 +44,5 @@
 
 {% endif %}
 {% endblock %}
+
+{% endspaceless %}

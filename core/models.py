@@ -55,6 +55,10 @@ class Instance(models.Model):
         self.status = 'w'
         self.save()
 
+    def set_notready(self):
+        self.status = 'n'
+        self.save()
+
 # Certificate tied to an Instance:
 class NDECertificate(models.Model):
     id = models.UUIDField('ID',default=uuid.uuid4,primary_key=True,unique=True,help_text="Unique ID for Material Instance")
@@ -62,10 +66,11 @@ class NDECertificate(models.Model):
     validity_start_date = models.DateField('Start Date',null=True)
     validity_end_date = models.DateField('Expiry Date',null=True)
     material_instance = models.ForeignKey('Instance',on_delete=models.CASCADE,null=True, verbose_name="Instance S/N")
+    validity = models.BooleanField('Certificate Valid', default=True, help_text="Is the certificate valid?")
 
     class Meta():
+        verbose_name = "NDE Certificate"
         verbose_name_plural = "NDE Certificates"
-
 
     def __str__(self):
         return f'{self.certificate_number}'
@@ -76,6 +81,8 @@ class NDECertificate(models.Model):
     def checkexpiry(self):
         instance = self.get_reference_material()
         if(self.validity_end_date < datetime.date.today()):
+            self.validity = False
+            self.save()
             instance.set_expire()
         elif(self.validity_end_date <= (datetime.date.today() + datetime.timedelta(weeks=WARNING_WINDOW_WEEKS))):
             instance.set_warning()
