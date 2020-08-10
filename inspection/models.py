@@ -50,6 +50,8 @@ class Inspection(models.Model):
         self.in_use = False
         self.save()
 
+
+# Lifting related inspections
 class LiftingInspection(Inspection):
     type = models.CharField(
         max_length = 1,
@@ -70,6 +72,26 @@ class MPIInpection(LiftingInspection):
     class Meta:
         verbose_name_plural = "MPI Inspections"
 
+
+# Measuring and Monitoring equipment inspections
 class CalibrationInspection(Inspection):
     class Meta:
         verbose_name = 'Calibration Inspection'
+
+
+# Pipework related inspections
+class PipeworkNDEInspection(Inspection):
+    class Meta:
+        verbose_name = 'Pipework NDE Inspection'
+
+class PrePostJobInspection(Inspection):
+    class Meta:
+        verbose_name = 'Pipework Pre-Post Inspection'
+
+class AnnualInspection(Inspection):
+    class Meta:
+        verbose_name = 'Pipework Annual Maintenance'
+
+class MajorInspection(Inspection):
+    class Meta:
+        verbose_name = 'Pipework COC Maintenance'
