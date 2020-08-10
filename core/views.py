@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Instance, Inspection
+from .models import Instance, VisualInspection
 import datetime
 from elaine.settings import INSTANCES_CHECKED
 
@@ -19,8 +19,8 @@ class HomePageView(LoginRequiredMixin,ListView):
         if ('q' in self.request.GET and self.request.GET['q'] == 'all'):
             # TODO refine the all search
             # view all NDE where Certificates are actively in use
-            return Inspection.objects.exclude(validity = False)
-        return Inspection.objects.filter(in_use = True).filter(validity=True)
+            return VisualInspection.objects.exclude(validity = False)
+        return VisualInspection.objects.filter(in_use = True).filter(validity=True)
     
     # Method to add context to the TemplateView
     def get_context_data(self, **kwargs):
@@ -32,7 +32,7 @@ class HomePageView(LoginRequiredMixin,ListView):
     def get(self, request, *args, **kwargs):
         global INSTANCES_CHECKED
         if(not INSTANCES_CHECKED):
-            queryset = Inspection.objects.filter(validity=True)
+            queryset = VisualInspection.objects.filter(validity=True)
             for item in queryset:
                 item.checkexpiry()
             # INSTANCES_CHECKED = True
