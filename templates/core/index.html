@@ -6,6 +6,7 @@
 {% block content %}
     {% if user.is_authenticated %}
     <h1>Dashboard</h1>
+    <p>Today's Date : {{ date_today }}</p>
 
     {% if instance_list %}
     <table class="table">
@@ -15,24 +16,27 @@
                 <th>Item Description</th>
                 <th>Allocation</th>
                 <th>Item Status</th>
+                <th>Expiry Date</th>
+                <th>Days Remaining</th>
             </tr>    
         </thead>
 
         <tbody>
-            {% for instance in instance_list %}
+            {% for cert in instance_list %}
             <tr>
-                <td>{{instance.serial_number}}</td>
-                <td>{{instance.material}}</td>
-                <td>{{instance.instance_allocation}}</td>  
-                <td
-                {% if instance.status == 'e'%}
-                class="table-danger">
-                {% elif instance.status == 'w'%}
-                class="table-warning">
+                <td>{{cert.material_instance.serial_number}}</td>
+                <td>{{cert.material_instance.material}}</td>
+                <td>{{cert.material_instance.instance_allocation}}</td>  
+                {% if cert.material_instance.status == 'e' %}
+                <td class="table-danger">
+                {% elif cert.material_instance.status == 'w' %}
+                <td class="table-warning">
                 {% else %}
-                >
+                <td>
                 {% endif %}
-                {{instance.get_status_display}}</td>
+                {{cert.material_instance.get_status_display}}</td>
+                <td>{{cert.validity_end_date}}</td>
+                <td>{{cert.get_time_left_days}}</td>
             </tr>
             {% endfor %}    
         </tbody>

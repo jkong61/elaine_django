@@ -46,7 +46,6 @@ class Instance(models.Model):
     def __str__(self):
         return f'{self.serial_number} - {self.material.hal_description}'
 
-
     def set_expire(self):
         self.status = 'e'
         self.save()

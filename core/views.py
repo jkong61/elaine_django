@@ -3,6 +3,7 @@ from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Instance, NDECertificate
+import datetime
 from elaine.settings import INSTANCES_CHECKED
 
 # Create your views here.
@@ -15,13 +16,15 @@ class HomePageView(LoginRequiredMixin,ListView):
 
     #  Overriden method to get the query set
     def get_queryset(self):
-        queryset = Instance.objects.exclude(status__exact='r')
+        queryset = NDECertificate.objects.all()
+        # queryset = Instance.objects.exclude(status__exact='r')
         return queryset
     
     # Method to add context to the TemplateView
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
+        context['date_today'] = datetime.date.today().strftime('%B %d, %Y')
         return context
 
     def get(self, request, *args, **kwargs):
