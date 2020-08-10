@@ -2,6 +2,8 @@ from django.db import models
 import datetime
 import uuid
 
+WARNING_WINDOW_WEEKS = 6
+
 # Create your models here.
 class Material(models.Model):
     hal_number = models.IntegerField('HAL SAP Number',primary_key=True,unique=True,help_text="SAP Number used by Halliburton Internal")
@@ -21,13 +23,14 @@ class Instance(models.Model):
     OBJ_STATUS = {
         ('n' , 'Not Ready'),
         ('r' , 'Ready'),
-        ('e' , 'Expired')
+        ('w', 'Expiring'),
+        ('e' , 'Expired'),
     }
 
     ALLOCATION = {
         ('w' , 'West Pumping'),
         ('p', 'Plug & Abandonment'),
-        ('h', 'Hydraulic WorkOver')
+        ('h', 'Hydraulic WorkOver'),
     }
 
     status = models.CharField(
@@ -54,6 +57,10 @@ class Instance(models.Model):
         self.status = 'e'
         self.save()
 
+    def set_warning(self):
+        self.status = 'w'
+        self.save()
+
 # Certificate tied to an Instance:
 class NDECertificate(models.Model):
     id = models.UUIDField('ID',default=uuid.uuid4,primary_key=True,unique=True,help_text="Unique ID for Material Instance")
@@ -65,10 +72,15 @@ class NDECertificate(models.Model):
     def __str__(self):
         return f'{self.certificate_number}'
 
+    def get_reference_material(self):
+        return Instance.objects.get(id=self.material_instance.id)
+
     def checkexpiry(self):
+        instance = self.get_reference_material()
         if(self.validity_end_date < datetime.date.today()):
-            instance = Instance.objects.get(id=self.material_instance.id)
             instance.set_expire()
+        elif(self.validity_end_date <= (datetime.date.today() + datetime.timedelta(weeks=WARNING_WINDOW_WEEKS))):
+            instance.set_warning()
 
     def get_time_left_days(self):
         if(self.validity_end_date > datetime.date.today()):
