@@ -39,3 +39,12 @@ class TestExpiryFunction(TestCase):
 
         instance = Instance.objects.get(id=1)
         self.assertEqual(instance.status,'e')
+
+    def test_nde_timeleft(self):
+        cert = NDECertificate.objects.get(id=1)
+
+        # Override exipry date to be more than today's date
+        cert.validity_end_date = datetime.date.today() + datetime.timedelta(weeks=1)
+
+        self.assertGreater(cert.validity_end_date, datetime.date.today())
+        # print(cert.get_time_left_days())

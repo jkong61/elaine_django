@@ -69,3 +69,10 @@ class NDECertificate(models.Model):
         if(self.validity_end_date < datetime.date.today()):
             instance = Instance.objects.get(id=self.material_instance.id)
             instance.set_expire()
+
+    def get_time_left_days(self):
+        if(self.validity_end_date > datetime.date.today()):
+            timedelta = self.validity_end_date - datetime.date.today()
+            return timedelta.days
+        else:
+            return 0
