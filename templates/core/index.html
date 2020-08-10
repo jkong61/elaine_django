@@ -20,29 +20,21 @@
                 <th>Days Remaining</th>
             </tr>    
         </thead>
-
-        <tbody>
-            {% for cert in instance_list %}
-            <tr>
+        <tbody>{% for cert in instance_list %}{% if cert.material_instance.status != 'r'%}
+            {% if cert.material_instance.status == 'e' %}
+            <tr class="table-danger">{% elif cert.material_instance.status == 'w' %}
+            <tr class="table-warning">{% else %}<tr class="table-info">{% endif %}
                 <td>{{cert.material_instance.serial_number}}</td>
                 <td>{{cert.material_instance.material}}</td>
                 <td>{{cert.material_instance.instance_allocation}}</td>  
-                {% if cert.material_instance.status == 'e' %}
-                <td class="table-danger">
-                {% elif cert.material_instance.status == 'w' %}
-                <td class="table-warning">
-                {% else %}
-                <td>
-                {% endif %}
-                {{cert.material_instance.get_status_display}}</td>
+                <td>{{cert.material_instance.get_status_display}}</td>
                 <td>{{cert.validity_end_date}}</td>
                 <td>{{cert.get_time_left_days}}</td>
-            </tr>
-            {% endfor %}    
+            </tr>{% endif %}{% endfor %}    
         </tbody>
     </table>
     {% else %}
-    <p>There are no insts in the library.</p>
+    <p>There are no active certs.</p>
     {% endif %}
 {% else %}
 

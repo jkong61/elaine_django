@@ -14,7 +14,7 @@ class InstanceAdmin(admin.ModelAdmin):
 @admin.register(NDECertificate)
 class NDECertAdmin(admin.ModelAdmin):
     readonly_fields = ['id']
-    list_display = ('certificate_number', 'validity_start_date', 'validity_end_date', 'material_instance', 'validity')
+    list_display = ('certificate_number', 'validity_start_date', 'validity_end_date', 'material_instance', 'validity', 'in_use')
 
 @admin.register(JobLocation)
 class JobLocationAdmin(admin.ModelAdmin):

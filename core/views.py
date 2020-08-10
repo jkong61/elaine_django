@@ -16,8 +16,7 @@ class HomePageView(LoginRequiredMixin,ListView):
 
     #  Overriden method to get the query set
     def get_queryset(self):
-        queryset = NDECertificate.objects.all()
-        # queryset = Instance.objects.exclude(status__exact='r')
+        queryset = NDECertificate.objects.exclude(in_use = False)
         return queryset
     
     # Method to add context to the TemplateView

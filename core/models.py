@@ -66,6 +66,7 @@ class NDECertificate(models.Model):
     validity_end_date = models.DateField('Expiry Date',null=True)
     material_instance = models.ForeignKey('Instance',on_delete=models.CASCADE,null=True, verbose_name="Instance S/N")
     validity = models.BooleanField('Certificate Valid', default=True, help_text="Is the certificate valid?")
+    in_use = models.BooleanField('Certificate In Use', default=True, help_text="Is the certificate in use?")
 
     class Meta():
         verbose_name = "NDE Certificate"
@@ -92,6 +93,10 @@ class NDECertificate(models.Model):
             return timedelta.days
         else:
             return 0
+
+    def set_not_in_use(self):
+        self.in_use = False
+        self.save()
 
 # Location Instance
 class JobLocation(models.Model):
