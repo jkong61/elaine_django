@@ -1,6 +1,7 @@
 from django.test import TestCase
 import datetime
-from core.models import Material, Instance, VisualInspection
+from core.models import Material, Instance
+from inspection.models import VisualInspection
 
 # Create your tests here.
 class TestExpiryFunction(TestCase):
