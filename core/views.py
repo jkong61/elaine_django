@@ -19,8 +19,8 @@ class HomePageView(LoginRequiredMixin,ListView):
         if ('q' in self.request.GET and self.request.GET['q'] == 'all'):
             # TODO refine the all search
             # view all NDE where Certificates are actively in use
-            return NDECertificate.objects.filter(in_use = True).filter(validity=True)
-        return NDECertificate.objects.filter(validity = False)
+            return NDECertificate.objects.exclude(validity = False)
+        return NDECertificate.objects.filter(in_use = True).filter(validity=True)
     
     # Method to add context to the TemplateView
     def get_context_data(self, **kwargs):
