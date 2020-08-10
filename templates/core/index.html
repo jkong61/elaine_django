@@ -3,5 +3,9 @@
 {% block title %}Home Page{% endblock %}
 
 {% block content %}
-    <h1>Hello</h1>
+{% if user.is_authenticated %}
+    <h1>Dashboard</h1>
+{% else %}
+
+{% endif %}
 {% endblock %}

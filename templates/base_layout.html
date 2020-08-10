@@ -26,22 +26,20 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Home</a>
+                        <a class="nav-link" href="{% url 'core-index' %}">Home</a>
                     </li>
                 </ul>
                 <div class="navbar-nav navbar-right btn-group">
                     {% if user.is_authenticated %}
                         <a class="btn btn-danger navbar-btn" href="{% url 'logout' %}">Logout</a>
                     {% else %}
-                        <a class="btn btn-info navbar-btn" href="#">Sign Up</a>
+                        <a class="btn btn-info navbar-btn" href="{% url 'auth-register' %}">Sign Up</a>
                         <a class="btn btn-success navbar-btn" href="{% url 'login' %}">Login</a>
                     {% endif %}
                 </div>
             </div>
         </nav>        
-        <div class="container content">
-            {% block content %}{% endblock %}
-        </div>
+        <div class="container content">{% block content %}{% endblock %}</div>
 
         <footer class="footer">
             <div class="container">
