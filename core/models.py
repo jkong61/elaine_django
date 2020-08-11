@@ -59,7 +59,10 @@ class Instance(models.Model):
         self.save()
 
     def get_reference_material(self):
-        return Material.objects.get(id=self.material.id)
+        return Material.objects.get(hal_number=self.material.hal_number)
+
+    def get_instance_type(self):
+        return self.get_reference_material().material_type
 
         
 # Location Instance
