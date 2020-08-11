@@ -65,12 +65,14 @@ class LiftingInspection(Inspection):
 class VisualInspection(LiftingInspection):
 
     class Meta:
-        verbose_name_plural = "Visual Inspections"
+        verbose_name_plural = "Lifting Visual Inspections"
+        verbose_name = "Visual Inspection (Lifting)"
 
 class MPIInpection(LiftingInspection):
 
     class Meta:
-        verbose_name_plural = "MPI Inspections"
+        verbose_name_plural = "Lifting MPI Inspections"
+        verbose_name = "MPI Inspection (Lifting)"
 
 
 # Measuring and Monitoring equipment inspections

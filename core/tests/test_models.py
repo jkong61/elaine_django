@@ -32,8 +32,3 @@ class TestExpiryFunction(TestCase):
         # Method should set instance to be 'e' : Expired
         instance.set_expire()
         self.assertEqual(instance.status,'e')
-
-
-
-
-
