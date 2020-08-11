@@ -14,11 +14,6 @@ class Inspection(models.Model):
     validity = models.BooleanField('Inspection Valid', default=True, help_text="Is the inspection valid?")
     in_use = models.BooleanField('Inspection In Use', default=True, help_text="Is the inspection in use?")
 
-    LIFTING_MATL_TYPE = {
-        ('k' , 'Skid'),
-        ('s' , 'Sling'),
-    }
-
     class Meta():
         abstract = True
         verbose_name = "Inspection"
@@ -32,8 +27,18 @@ class Inspection(models.Model):
             self.validity = False
             self.save()
             instance.set_expire()
+            return 'Expired'
         elif(self.validity_end_date <= (datetime.date.today() + datetime.timedelta(weeks=WARNING_WINDOW_WEEKS))):
-            instance.set_warning()
+            return 'Expiring'
+        return 'Valid'
+
+    def get_inspection_status(self):
+        instance = self.get_reference_material()
+        if(self.validity_end_date < datetime.date.today()):
+            return 'Expired'
+        elif(self.validity_end_date <= (datetime.date.today() + datetime.timedelta(weeks=WARNING_WINDOW_WEEKS))):
+            return 'Expiring'
+        return 'Valid'
 
     def get_time_left_days(self):
         if(self.validity_end_date > datetime.date.today()):
@@ -48,34 +53,45 @@ class Inspection(models.Model):
 
 
 # Lifting related inspections
-class LiftingInspection(Inspection):
-    type = models.CharField(
-        max_length = 1,
-        choices = Inspection.LIFTING_MATL_TYPE,
-        default = 'k',
-        help_text = "Type of Item"
-    )
+class AbstractSkidInspection(Inspection):
+    material_instance = models.ForeignKey('core.SkidInstance', on_delete=models.CASCADE, null=True)
     class Meta:
         abstract = True
 
-    def get_model(self):
-        return SkidInstance if self.type == 'k' else SlingInstance
-
     def get_reference_material(self):
-        return self.get_model().objects.get(id=self.material_instance.id)
+        return SkidInstance.objects.get(id=self.material_instance.id)
 
-
-class VisualInspection(LiftingInspection):
+class SkidVisualInspection(AbstractSkidInspection):
     
     class Meta:
-        verbose_name_plural = "Lifting Visual Inspections"
-        verbose_name = "Visual Inspection (Lifting)"
+        verbose_name_plural = "Skid Visual Inspections"
+        verbose_name = "Skid Visual Inspection"
 
-class MPIInpection(LiftingInspection):
+class SkidMPIInpection(AbstractSkidInspection):
 
     class Meta:
-        verbose_name_plural = "Lifting MPI Inspections"
-        verbose_name = "MPI Inspection (Lifting)"
+        verbose_name_plural = "Skid MPI Inspections"
+        verbose_name = "Skid MPI Inspection"
+
+class AbstractSlingInspection(Inspection):
+    material_instance = models.ForeignKey('core.SlingInstance', on_delete=models.CASCADE, null=True)
+    class Meta:
+        abstract = True
+
+    def get_reference_material(self):
+        return SlingInstance.objects.get(id=self.material_instance.id)
+
+class SlingVisualInspection(AbstractSlingInspection):
+    
+    class Meta:
+        verbose_name_plural = "Sling Visual Inspections"
+        verbose_name = "Sling Visual Inspection"
+
+class SlingMPIInpection(AbstractSlingInspection):
+
+    class Meta:
+        verbose_name_plural = "Sling MPI Inspections"
+        verbose_name = "Sling MPI Inspection"        
 
 
 # Measuring and Monitoring equipment inspections

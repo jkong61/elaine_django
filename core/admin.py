@@ -16,7 +16,3 @@ class InstancesAdmin(admin.ModelAdmin):
 @admin.register(JobLocation)
 class JobLocationAdmin(admin.ModelAdmin):
     list_display = ['location_name']
-
-@admin.register(MaterialType)
-class MatlDescAdmin(admin.ModelAdmin):
-    list_display = ['description']

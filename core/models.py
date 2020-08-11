@@ -25,7 +25,6 @@ class Instance(models.Model):
     OBJ_STATUS = {
         ('n' , 'Not Ready'),
         ('r' , 'Ready'),
-        ('w', 'Expiring'),
         ('e' , 'Expired'),
     }
 
@@ -51,10 +50,6 @@ class Instance(models.Model):
 
     def set_expire(self):
         self.status = 'e'
-        self.save()
-
-    def set_warning(self):
-        self.status = 'w'
         self.save()
 
     def set_notready(self):
