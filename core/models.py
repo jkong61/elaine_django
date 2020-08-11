@@ -19,6 +19,9 @@ class Instance(models.Model):
     material = models.ForeignKey('Material',verbose_name='Material Item', on_delete=models.SET_NULL,null=True)
     serial_number = models.CharField('Mfg S/N',max_length=64,help_text="Manufacturing Serial Number")
 
+    class Meta:
+        abstract = True
+
     OBJ_STATUS = {
         ('n' , 'Not Ready'),
         ('r' , 'Ready'),
@@ -64,7 +67,27 @@ class Instance(models.Model):
     def get_instance_type(self):
         return self.get_reference_material().material_type
 
-        
+class PipeworkInstance(Instance):
+    class Meta:
+        verbose_name = 'Pipework Instance'
+        verbose_name_plural = 'Pipework Instances'
+
+class SkidInstance(Instance):
+    class Meta:
+        verbose_name = 'Skid Instance'
+        verbose_name_plural = 'Skid Instances'
+
+class SlingInstance(Instance):
+    class Meta:
+        verbose_name = 'Slings Instance'
+        verbose_name_plural = 'Slings Instances'
+
+class TMMDEInstance(Instance):
+    class Meta:
+        verbose_name = 'TMMDE Instance'
+        verbose_name_plural = 'TMMDE Instances'
+
+
 # Location Instance
 class JobLocation(models.Model):
     location_name = models.CharField('Location Name',max_length=64,help_text="Name of Location")
