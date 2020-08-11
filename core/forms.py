@@ -1,3 +1,2 @@
-from django import forms
-from .models import NDECertificate, Instance
-
+from django.forms import ModelForm
+from .models import Instance, Material

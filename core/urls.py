@@ -1,7 +1,6 @@
 from django.urls import path
-from .views import HomePageView, NDEFormsView
+from .views import HomePageView
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='core-index'),
-    path('nde', NDEFormsView.as_view(), name='core-nde-forms'),
 ]
