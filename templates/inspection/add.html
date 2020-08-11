@@ -1,8 +1,19 @@
-{% extends 'base_layout.html' %}
+{% extends 'base_layout.html' %} {% load add_class %}
+{% block title %} {{title}} {% endblock %}
 {% block content %}
 
+<h1>{{ header }}</h1>
+
 <form method="post">{% csrf_token %}
-    {{ form.as_p }}
+    {% for field in form %}
+    <div class="form-group">
+        {{ field.label_tag }}
+        {{ field|add_class:"form-control" }} 
+        {% if field.help_text %}
+        <small class="text-muted">{{ field.help_text|safe }}</small>
+        {% endif %}   
+    </div>
+    {% endfor %}
     <input type="submit" value="Save">
 </form>
 {% endblock %}
