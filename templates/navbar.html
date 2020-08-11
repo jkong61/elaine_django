@@ -1,0 +1,45 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{% url 'core-index' %}"><img src="{% static 'img/logo.jpg' %}" alt="My image"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'core-index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Pipework</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">SKIDs</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Slings</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">TMMDEs</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown-pipework" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Pipework
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown-pipework">
+                    <a class="dropdown-item" href="#">NDE Inspections</a>
+                    <a class="dropdown-item" href="#">Pre-Post Inspections</a>
+                    <a class="dropdown-item" href="#">Annual Inspections</a>
+                    <a class="dropdown-item" href="#">Major Inspections</a>
+                </div>
+            </li>
+            
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown-tmmde" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    TMMDEs
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown-tmmde">
+                    <a class="dropdown-item" href="#">Calibration Inspections</a>
+                </div>
+            </li>
+
+        </ul>
+        <div class="navbar-nav navbar-right btn-group">
+            {% if user.is_authenticated %}
+                <a class="btn btn-danger navbar-btn" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a class="btn btn-info navbar-btn" href="{% url 'auth-register' %}">Sign Up</a>
+                <a class="btn btn-success navbar-btn" href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>

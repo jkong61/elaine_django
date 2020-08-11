@@ -18,7 +18,6 @@ class HomePageView(LoginRequiredMixin,ListView):
     #  Overriden method to get the query set
     def get_queryset(self):
         if ('q' in self.request.GET and self.request.GET['q'] == 'all'):
-            # TODO refine the all search
             # view all NDE where Certificates are actively in use
             return VisualInspection.objects.exclude(validity = False)
         return VisualInspection.objects.filter(in_use = True).filter(validity=True)
