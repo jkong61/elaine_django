@@ -20,8 +20,13 @@ class TestFormSave(TestCase):
         # Should return skid type
         material = Material.objects.get(hal_number=123)
         self.assertEqual(type(material), Material)
+
         form = GenericInstanceForm({'multifield' : material, 'serial_number' : 12345})
         self.assertTrue(form.is_valid())
+
+    def test_item_saved_into_db(self):
+        material = Material.objects.get(hal_number=123)
+        form = GenericInstanceForm({'multifield' : material, 'serial_number' : 12345})
         skid = SkidInstance.objects.all().count()
         self.assertGreater(skid, 0)
 
