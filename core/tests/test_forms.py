@@ -27,6 +27,9 @@ class TestFormSave(TestCase):
     def test_item_saved_into_db(self):
         material = Material.objects.get(hal_number=123)
         form = GenericInstanceForm({'multifield' : material, 'serial_number' : 12345})
+
+        # Is valid method has to be called to save instance into DB
+        form.is_valid()
         skid = SkidInstance.objects.all().count()
         self.assertGreater(skid, 0)
 
