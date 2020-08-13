@@ -3,7 +3,8 @@
 {% block title %}NDE Certificates{% endblock %}
 
 {% block content %}
-<h1>NDE Page</h1>
+<h1>Add new Instance</h1>
+<p></p>
 <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Save">

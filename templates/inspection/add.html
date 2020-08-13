@@ -8,12 +8,18 @@
     {% for field in form %}
     <div class="form-group">
         {{ field.label_tag }}
+        {% if field.field.widget.input_type == 'checkbox' %}
+        <div class="form-check">
+        {{ field|add_class:"form-check-input" }}
+        {% else %}<div class="form-group">
         {{ field|add_class:"form-control" }} 
+        {% endif %}
         {% if field.help_text %}
         <small class="text-muted">{{ field.help_text|safe }}</small>
         {% endif %}   
+        </div>
     </div>
     {% endfor %}
-    <input type="submit" value="Save">
+    <input type="submit" class="btn btn-primary" value="Save">
 </form>
 {% endblock %}
