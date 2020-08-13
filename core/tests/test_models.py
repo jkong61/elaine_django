@@ -10,11 +10,6 @@ class TestExpiryFunction(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-
-        print(f'Current start date is {cls.startdate}.')
-        print(f'Current end date is {cls.enddate}.')
-        print(f'Today\'s date is {datetime.date.today()}.')
-
         # Certificate is expired by default by 1 week
         material_type = MaterialType.objects.create(description='hello')
         material = Material.objects.create(hal_number='123', hal_description='Some material', hal_old_number='qwerty123',material_type=material_type)

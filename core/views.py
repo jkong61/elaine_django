@@ -1,10 +1,9 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.views.generic import FormView, ListView, TemplateView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from inspection.models import SkidVisualInspection
 from .forms import GenericInstanceForm
+from .models import SkidInstance, SlingInstance, PipeworkInstance, TMMDEInstance
 import datetime
 from elaine.settings import INSTANCES_CHECKED
 
@@ -45,18 +44,6 @@ class InstanceCreationView(LoginRequiredMixin, FormView):
     login_url = reverse_lazy('login')
     success_url = reverse_lazy('core-success')
 
-    def form_valid(self, form):
-        id = form.cleaned_data.get('multifield').material_type.description
-        if(id == 'Pipework'):
-            print(1)
-        elif(id == 'Skid'):
-            print(2)
-        elif(id == 'Sling'):
-            print(3)
-        else:
-            print('TMMDE')
-        print(self.request.POST)
-        return super().form_valid(form)
 
 class SuccessView(TemplateView):
     template_name = 'core/success.html'
