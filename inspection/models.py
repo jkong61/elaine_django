@@ -54,7 +54,8 @@ class Inspection(models.Model):
 
 # Lifting related inspections
 class AbstractSkidInspection(Inspection):
-    material_instance = models.ForeignKey('core.SkidInstance', on_delete=models.CASCADE, null=True)
+    material_instance = models.ForeignKey('core.SkidInstance', on_delete=models.CASCADE)
+
     class Meta:
         abstract = True
 
@@ -74,7 +75,7 @@ class SkidMPIInpection(AbstractSkidInspection):
         verbose_name = "Skid MPI Inspection"
 
 class AbstractSlingInspection(Inspection):
-    material_instance = models.ForeignKey('core.SlingInstance', on_delete=models.CASCADE, null=True)
+    material_instance = models.ForeignKey('core.SlingInstance', on_delete=models.CASCADE)
     class Meta:
         abstract = True
 
@@ -96,7 +97,8 @@ class SlingMPIInpection(AbstractSlingInspection):
 
 # Measuring and Monitoring equipment inspections
 class CalibrationInspection(Inspection):
-    material_instance = models.ForeignKey('core.TMMDEInstance', on_delete=models.CASCADE, null=True)
+    material_instance = models.ForeignKey('core.TMMDEInstance', on_delete=models.CASCADE)
+
     class Meta:
         verbose_name = 'Calibration Inspection'
 
@@ -106,7 +108,8 @@ class CalibrationInspection(Inspection):
 
 # Pipework related inspections
 class AbstractPipeworkInspection(Inspection):
-    material_instance = models.ForeignKey('core.PipeworkInstance', on_delete=models.CASCADE, null=True)
+    material_instance = models.ForeignKey('core.PipeworkInstance', on_delete=models.CASCADE)
+
     class Meta:
         abstract = True
 
@@ -115,17 +118,21 @@ class AbstractPipeworkInspection(Inspection):
 
 
 class PipeworkNDEInspection(AbstractPipeworkInspection):
+
     class Meta:
         verbose_name = 'Pipework NDE Inspection'
 
 class PrePostJobInspection(AbstractPipeworkInspection):
+
     class Meta:
         verbose_name = 'Pipework Pre-Post Inspection'
 
 class AnnualInspection(AbstractPipeworkInspection):
+
     class Meta:
         verbose_name = 'Pipework Annual Maintenance'
 
 class MajorInspection(AbstractPipeworkInspection):
+    
     class Meta:
         verbose_name = 'Pipework COC Maintenance'

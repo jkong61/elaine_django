@@ -18,9 +18,7 @@ class Instance(models.Model):
     id = models.UUIDField('ID',default=uuid.uuid4,primary_key=True,unique=True,help_text="Unique ID for Material Instance")
     material = models.ForeignKey('Material',verbose_name='Material Item', on_delete=models.SET_NULL,null=True)
     serial_number = models.CharField('Mfg S/N',max_length=64,help_text="Manufacturing Serial Number")
-
-    class Meta:
-        abstract = True
+    instance_remarks = models.CharField('Additional Remarks',max_length=255,help_text="Additional Comments", blank=True)
 
     OBJ_STATUS = {
         ('n' , 'Not Ready'),
@@ -43,7 +41,9 @@ class Instance(models.Model):
         blank=True
     )
 
-    instance_remarks = models.CharField('Additional Remarks',max_length=255,help_text="Additional Comments",null=True, blank=True)
+    class Meta:
+        abstract = True
+
 
     def __str__(self):
         return f'{self.serial_number} - {self.material.hal_description}'
