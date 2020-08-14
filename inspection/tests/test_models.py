@@ -13,7 +13,7 @@ class TestExpiryFunction(TestCase):
     @classmethod
     def setUpTestData(cls):
         # Initialize Pipework object
-        material = Material.objects.create(hal_number='123', hal_description='Some material', hal_old_number='qwerty123')
+        material = Material.objects.create(hal_number='100', hal_description='Some material', hal_old_number='qwerty100')
         instance = PipeworkInstance.objects.create(id=1,material=material)
         cert = PipeworkNDEInspection.objects.create(id=1,validity_start_date=cls.startdate,validity_end_date=cls.enddate,material_instance=instance)
 
