@@ -7,6 +7,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             {% if perms.core.add_instance %}<li><a class="nav-link" href="{% url 'core-add-instance' %}">Add Instance</a></li>{% endif %}
+            {% if perms.core.add_instance %}<li><a class="nav-link" href="{% url 'add_inspection' %}">Test Add Cert</a></li>{% endif %}
             <!-- Dropdown for Pipework -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown-pipework" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -48,7 +49,7 @@
                     TMMDEs
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown-tmmde">
-                    <a class="dropdown-item" href="{% url 'inspection-calibration' %}">Calibration Inspections</a>
+                    <a class="dropdown-item" href="#">Calibration Inspections</a>
                 </div>
             </li>
         </ul>
