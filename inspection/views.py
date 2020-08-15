@@ -1,7 +1,12 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from .models import CalibrationInspection
+import json
 from .forms import GenericInspectionForm
-from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from django.views.generic import TemplateView
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
+from django.views.generic.edit import FormView
 
 # Create your views here.
 class InspectionCreateView(FormView):
@@ -22,3 +27,23 @@ class InspectionCreateView(FormView):
     def form_invalid(self, form):
         print(self.request.POST)
         return super().form_invalid(form)
+
+
+class AJAXInspectionEndPoint(TemplateView):
+
+    @method_decorator(csrf_protect)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get(self, *args, **kwargs):
+        print('Get Received')
+        return JsonResponse({"result": "GET OK"}, status=200)
+
+    @method_decorator(csrf_protect ,name='dispatch')
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax and self.request.method == "POST":
+            # decode method required to decode the request body
+            raw_json_data = self.request.body.decode('utf-8')
+            print(json.loads(raw_json_data))
+            return JsonResponse({"result": "POST OK"}, status=200)
+        return JsonResponse({"result": "POST Fail"}, status=400)

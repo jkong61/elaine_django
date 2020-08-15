@@ -1,10 +1,7 @@
-{% extends 'base_layout.html' %} {% load add_class %}
-{% block title %} {{title}} {% endblock %}
+{% extends 'base_layout.html' %} {% load add_class %} {% load static %}
+{% block title %} Inspection Module {% endblock %}
 {% block content %}
-
-<h1>{{ header }}</h1>
-
-
+<h1>Add Inspection Date</h1><hr/>
 <form method="post">{% csrf_token %}
     {% for field in form %}
     <div class="form-group">
@@ -18,7 +15,6 @@
         {% else %}<div class="form-group">
         {{ field|add_class:"form-control" }} 
         {% endif %}
-
         {% if field.help_text %}
         <small class="text-muted">{{ field.help_text|safe }}</small>
         {% endif %}   
@@ -28,3 +24,4 @@
     <input type="submit" class="btn btn-primary" value="Save">
 </form>
 {% endblock %}
+{% block script %}<script src="{% static 'js/inspections/app.js' %}"></script>{% endblock %}

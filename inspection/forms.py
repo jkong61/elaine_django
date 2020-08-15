@@ -17,6 +17,17 @@ class GenericInspectionForm(forms.Form):
         ('tmde', TMMDEInstance._meta.verbose_name),
     ]
 
+    TEST_CHOICES = [
+        ('', "Select one.."),
+        ('app', "One"),
+        ('hell', "Two"),
+        ('banna', "Three"),
+        ('weeee', "Four"),
+    ]
+
+
+    test_select = forms.ChoiceField(choices=TEST_CHOICES, label="Inspection type",initial='')
+
     validity_start_date = forms.DateField(widget=forms.DateInput(attrs={'placeholder': 'DD/MM/YYYY'}))
     validity_end_date = forms.DateField(disabled=True)
     validity = forms.BooleanField(initial=True,help_text="Is inspection valid?")
@@ -25,4 +36,4 @@ class GenericInspectionForm(forms.Form):
 
 
     class Meta:
-        fields = ['validity_start_date','validity_end_date','material_instance','validity','in_use']
+        fields = ['test_select','validity_start_date','validity_end_date','material_instance','validity','in_use']

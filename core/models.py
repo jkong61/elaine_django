@@ -11,7 +11,7 @@ class Material(models.Model):
 
     def __str__(self):
         """String for representing the MyModelName object (in Admin site etc.)."""
-        return f'{self.hal_number} - {self.hal_description}'
+        return f'{self.hal_number} - {self.hal_description} - ({self.material_type})'
 
 # Single Instance of a Material type
 class Instance(models.Model):
