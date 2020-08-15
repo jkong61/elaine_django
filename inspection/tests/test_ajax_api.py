@@ -33,7 +33,7 @@ class TestAjaxAPI(TestCase):
 
     def test_ajax_api_with_get_logged_in(self):
         login = self.client.login(username='testuser1', password='1X<ISRUkw+tuK')
-        data = json.dumps({"data": "Mock data"})
+        data = json.dumps({"data": "skid"})
         response = self.client.post(reverse('inspection-ajax-api'),
             data=data,
             content_type='application/json')

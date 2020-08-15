@@ -1,26 +1,22 @@
+from inspection.models import PrePostJobInspection
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
 from django.urls import reverse_lazy
-from .models import CalibrationInspection
-import json
+from core.models import PipeworkInstance, SlingInstance, SkidInstance, TMMDEInstance
 from .forms import GenericInspectionForm
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.core import serializers
 from django.views.generic.edit import FormView
+from django.core.exceptions import SuspiciousOperation
 
 # Create your views here.
 class InspectionCreateView(FormView):
     form_class = GenericInspectionForm
     template_name = 'inspection/add.html'
     login_url = reverse_lazy('login')
-
-    def get_context_data(self, **kwargs):
-    # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Add Inspection'
-        context['header'] = 'Add Inspection Certificate'
-        return context
 
     def form_valid(self, form):
         print(self.request.POST)
@@ -41,11 +37,23 @@ class AJAXInspectionEndPoint(TemplateView, LoginRequiredMixin):
     def get(self, *args, **kwargs):
         raise Http404
 
-    # @method_decorator(csrf_protect ,name='dispatch')
     def post(self, *args, **kwargs):
         if self.request.is_ajax and self.request.method == "POST":
-            # decode method required to decode the request body
-            raw_json_data = self.request.body
-            # print(json.loads(raw_json_data))
-            return JsonResponse({"result": "POST OK"}, status=200)
+            json_data = json.loads(self.request.body)
+            try:
+                id = json_data['data'][:2]
+                if(id == 'sk'):
+                    query = SkidInstance
+                elif(id == 'sl'):
+                    query = SlingInstance
+                elif(id == 'pw'):
+                    query = PipeworkInstance
+                elif(id == 'tm'):
+                    query = TMMDEInstance
+                else:
+                    raise KeyError
+            except KeyError:
+                raise SuspiciousOperation("Invalid JSON")
+            data = [{'id': item.id, 'str': str(item)} for item in query.objects.all()]
+            return JsonResponse({'data': data}, status=200)
         return JsonResponse({"result": "POST Fail"}, status=400)
