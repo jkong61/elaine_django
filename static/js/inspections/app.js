@@ -4,6 +4,7 @@ const inspectionSelector = document.getElementById('id_model_select');
 const instanceSelector = document.getElementById('id_instance_select');
 const dateStart = document.getElementById('id_validity_start_date');
 const dateEnd = document.getElementById('id_validity_end_date');
+const calculateDate = document.getElementById('id_date_calculate');
 
 window.onload = () =>
 {
@@ -36,11 +37,29 @@ inspectionSelector.onchange = () =>
     }
 };
 
-dateStart.onchange = () =>
+calculateDate.onclick = () =>
 {
-    if(inspectionSelector.value == 'skv' && inspectionSelector.value == 'slv')
+    if(inspectionSelector.value)
     {
-        dateEnd.value = addDays(new Date(), 365)
+        switch(inspectionSelector.value)
+        {
+            case("skv"):
+            case("slv"):
+                dateEnd.value = addDays(dateStart.value, 183).toLocaleDateString();
+                break;
+            case("pwmaj"):
+                dateEnd.value = addDays(dateStart.value, 365.25 * 5).toLocaleDateString();
+                break;
+            case("pwppj"):
+                dateEnd.value = addDays(dateStart.value, 91).toLocaleDateString();
+                break;
+            default:
+                dateEnd.value = addDays(dateStart.value, 365.25).toLocaleDateString();
+        }
+    }
+    else
+    {
+        alert("Please select an inspection type.");
     }
 };
 

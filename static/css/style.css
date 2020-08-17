@@ -25,3 +25,7 @@ html {
 .logo {
     height: 25px;
 }
+
+.onclick {
+    cursor: pointer ;
+}

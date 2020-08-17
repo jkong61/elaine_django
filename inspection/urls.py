@@ -1,10 +1,10 @@
 from django.urls import path
 from django.views.generic import RedirectView
-from .views import InspectionCreateView, AJAXInspectionEndPoint
+from .views import InspectionCreateView,InspectionDetailView, AJAXInspectionEndPoint
 
 urlpatterns = [
     path('', RedirectView.as_view(pattern_name='core-index')),
-    # path('calibration/add/', InspectionCreateView.as_view(), name='inspection-calibration'),
     path('add/', InspectionCreateView.as_view(), name='inspection-add-inspection'),
-    path('api/', AJAXInspectionEndPoint.as_view(), name='inspection-ajax-api')
+    path('api/', AJAXInspectionEndPoint.as_view(), name='inspection-ajax-api'),
+    path('certs/', InspectionDetailView.as_view(), name='inspection-detail')
 ]

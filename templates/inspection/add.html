@@ -9,6 +9,9 @@
         {% for error in field.errors %}
         <small class="text-danger">{{ error }}</small>
         {% endfor %}
+        {% if field.id_for_label == 'id_validity_end_date'%}
+        <p><a class="onclick" id="id_date_calculate">Calculate Date</a></p>
+        {% endif %}
         {% if field.field.widget.input_type == 'checkbox' %}
         <div class="form-check">
         {{ field|add_class:"form-check-input" }}
@@ -22,6 +25,7 @@
     </div>
     {% endfor %}
     <input type="submit" class="btn btn-primary" value="Save">
+    <input type="reset" class="btn btn-danger" value="Reset">
 </form>
 {% endblock %}
 {% block script %}<script src="{% static 'js/inspections/app.js' %}"></script>{% endblock %}

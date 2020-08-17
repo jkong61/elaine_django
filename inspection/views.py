@@ -3,12 +3,12 @@ import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
 from django.urls import reverse_lazy
-from core.models import PipeworkInstance, SlingInstance, SkidInstance, TMMDEInstance
+from core.models import Instance, PipeworkInstance, SlingInstance, SkidInstance, TMMDEInstance
 from .forms import GenericInspectionForm
 from django.views.generic import TemplateView
+from django.views.generic.detail import DetailView
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
-from django.core import serializers
 from django.views.generic.edit import FormView
 from django.core.exceptions import SuspiciousOperation
 
@@ -17,15 +17,19 @@ class InspectionCreateView(FormView):
     form_class = GenericInspectionForm
     template_name = 'inspection/add.html'
     login_url = reverse_lazy('login')
+    success_url = reverse_lazy()
 
     def form_valid(self, form):
-        print(self.request.POST)
-        return super().form_valid(form)
+        # print(self.request.POST)
+        response = super().form_valid(form)
+        return response
 
     def form_invalid(self, form):
-        print(self.request.POST)
+        # print(self.request.POST)
         return super().form_invalid(form)
 
+class InspectionDetailView(DetailView):
+    model = PipeworkInstance
 
 class AJAXInspectionEndPoint(TemplateView, LoginRequiredMixin):
     login_url = reverse_lazy('login')
