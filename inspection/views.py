@@ -1,4 +1,4 @@
-from inspection.models import PrePostJobInspection
+from inspection.models import AnnualInspection, PipeworkNDEInspection, PrePostJobInspection
 import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
@@ -28,8 +28,16 @@ class InspectionCreateView(FormView):
         # print(self.request.POST)
         return super().form_invalid(form)
 
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('core-index')         
+        if kwargs != None:
+            return reverse_lazy('detail', kwargs = {'pk': kwargs['idnumber']})
+        else:
+            return reverse_lazy('detail', args = (self.object.id,))
+
 class InspectionDetailView(DetailView):
-    model = PipeworkInstance
+    model = AnnualInspection
+    template_name = 'inspection/cert_details.html'
 
 class AJAXInspectionEndPoint(TemplateView, LoginRequiredMixin):
     login_url = reverse_lazy('login')

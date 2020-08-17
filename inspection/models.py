@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from core.models import PipeworkInstance, SkidInstance, SlingInstance, TMMDEInstance
 import datetime
 import uuid
@@ -50,6 +51,9 @@ class Inspection(models.Model):
     def set_not_in_use(self):
         self.in_use = False
         self.save()
+
+    def get_absolute_url(self):
+        return reverse('inspection-detail', args=[str(self.id)])
 
 
 # Lifting related inspections

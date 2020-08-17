@@ -6,5 +6,5 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name='core-index')),
     path('add/', InspectionCreateView.as_view(), name='inspection-add-inspection'),
     path('api/', AJAXInspectionEndPoint.as_view(), name='inspection-ajax-api'),
-    path('certs/', InspectionDetailView.as_view(), name='inspection-detail')
+    path('certs/<uuid:pk>', InspectionDetailView.as_view(), name='inspection-detail')
 ]

@@ -1,0 +1,6 @@
+{% extends 'base_layout.html' %} {% load add_class %} {% load static %}
+{% block title %} Inspection Certificate {% endblock %}
+{% block content %}
+<h1>Certificate Inspection Details</h1><hr/>
+{{object.get_absolute_url}}
+{% endblock %}
