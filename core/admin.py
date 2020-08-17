@@ -12,6 +12,9 @@ class InstancesAdmin(admin.ModelAdmin):
     readonly_fields = ['id']
     list_display = ('material', 'serial_number', 'status', 'instance_allocation')
 
+@admin.register(MaterialType)
+class MaterialTypeAdmin(admin.ModelAdmin):
+    pass
 
 @admin.register(JobLocation)
 class JobLocationAdmin(admin.ModelAdmin):
